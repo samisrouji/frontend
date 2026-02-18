@@ -5,9 +5,10 @@ import logo from "../assets/emarket-logo.png";
 interface HeaderProps {
   onSearch?: (query: string) => void;
   cartCount?: number;
+  onCartClick?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0 }) => {
+export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0, onCartClick }) => {
   const [query, setQuery] = React.useState("");
 
   const handleSearch = () => {
@@ -32,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0 }) => {
         </button>
       </div>
       <div className="cart-container">
-        <button className="cart-button" aria-label="Cart">🛒
+        <button className="cart-button" aria-label="Cart" onClick={onCartClick}>🛒
           <span className="cart-count">{cartCount}</span>
         </button>
       </div>

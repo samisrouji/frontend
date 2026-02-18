@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Header } from "./components/Header";
+import CartDrawer from "./components/CartDrawer.tsx";
 import { ProductCard } from "./components/ProductCard";
 import "./App.css";
 
@@ -54,10 +55,32 @@ function App() {
   };
 
   const cartCount = Object.values(cart).reduce((s, q) => s + q, 0);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCart = () => setIsCartOpen((v) => !v);
+
+  const cartItems = Object.entries(cart).map(([id, qty]) => {
+    const pid = Number(id);
+    const prod = products.find((p) => p.id === pid);
+    return {
+      id: pid,
+      name: prod?.name || "Unknown",
+      price: prod ? `$${prod.price}` : "$0",
+      quantity: qty,
+    };
+  });
 
   return (
     <div>
-      <Header onSearch={(query) => setSearchQuery(query)} cartCount={cartCount} />
+      <Header onSearch={(query) => setSearchQuery(query)} cartCount={cartCount} onCartClick={toggleCart} />
+      {isCartOpen && (
+        <CartDrawer
+          items={cartItems}
+          onClose={() => setIsCartOpen(false)}
+          onAdd={(id: number) => addToCart(id)}
+          onRemove={(id: number) => removeFromCart(id)}
+        />
+      )}
       <div className="product-grid">
         {filteredProducts.map((p) => (
           <ProductCard

@@ -1,4 +1,3 @@
-import React from "react";
 import "./ProductCard.css";
 
 interface ProductCardProps {
@@ -11,7 +10,7 @@ interface ProductCardProps {
   quantity?: number;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, imageUrl, onAdd, onRemove, quantity = 0 }) => {
+export function ProductCard({ name, price, imageUrl, onAdd, onRemove, quantity = 0 }: ProductCardProps) {
   return (
     <div className="product-card">
       <img src={imageUrl} alt={name}/>
