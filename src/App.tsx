@@ -95,6 +95,7 @@ function App() {
             onAdd={() => addToCart(p.id)}
             onRemove={() => removeFromCart(p.id)}
             quantity={cart[p.id] || 0}
+            inventoryQuantity={p.inventoryQuantity}
           />
         ))}
       </div>

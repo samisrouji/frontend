@@ -49,3 +49,25 @@
   display: inline-block;
   text-align: center;
 }
+
+.inventory-error {
+  color: #b00020;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.available-box {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #ffffffee;
+  color: #111;
+  font-size: 0.85rem;
+  border: 1px solid #ccc;
+}
+
+.card-actions .add-button.limit {
+  opacity: 0.65;
+  background: #555;
+}
