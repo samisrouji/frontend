@@ -12,16 +12,25 @@ html, body, #root {
   box-sizing: inherit;
 }
 
-/* Product grid styling */
+/* Product grid styling (responsive premium layout) */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
-  padding: 20px;
+  padding: 28px;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 /* When user chooses list view, show single column list */
 body.list-view .product-grid {
   grid-template-columns: 1fr;
+}
+
+@media (max-width: 420px) {
+  .product-grid {
+    padding: 16px;
+    gap: 12px;
+  }
 }

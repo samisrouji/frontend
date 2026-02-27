@@ -1,42 +1,108 @@
 .product-card {
-  border: 1px solid #363636;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  background-color: rgb(189, 189, 189);
-  transition: transform 0.2s;
-  width: 100%;
-}
+  --card-radius: 12px;
+  --card-padding: 16px;
+  --card-bg: rgba(255,255,255,0.02);
+  --card-border: rgba(255,255,255,0.06);
+  --card-shadow: 0 10px 25px rgba(2,6,23,0.55);
+  --text-muted: rgba(255,255,255,0.7);
+  --accent: #ffd580;
 
-.product-card img {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  padding: var(--card-padding);
   width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+  overflow: hidden;
 }
 
 .product-card:hover {
-  transform: scale(1.05);
+  transform: translateY(-6px);
+  box-shadow: var(--card-shadow);
+}
+
+.image-wrap {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.02));
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 420ms ease;
+}
+
+.product-card:hover .image-wrap img {
+  transform: scale(1.04);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: inherit;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.price {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent);
 }
 
 .card-actions {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 8px;
-  margin-top: 10px;
+  gap: 10px;
 }
 
 .card-actions .add-button,
 .card-actions .remove-button {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: 1px solid #555;
-  background: #1a1a1a;
-  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.06);
+  color: inherit;
   font-size: 18px;
   cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  transition: background 200ms ease, transform 120ms ease;
+}
+
+.card-actions .add-button:hover:not(.limit) {
+  background: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
 }
 
 .card-actions .remove-button[disabled] {
@@ -45,29 +111,53 @@
 }
 
 .card-actions .quantity {
-  min-width: 20px;
-  display: inline-block;
+  min-width: 28px;
   text-align: center;
+  font-weight: 600;
 }
 
 .inventory-error {
-  color: #b00020;
-  margin-top: 8px;
+  color: #ffb4b4;
+  margin-top: 6px;
   font-size: 0.9rem;
 }
 
 .available-box {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: #ffffffee;
-  color: #111;
-  font-size: 0.85rem;
-  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  border: 1px solid rgba(255,255,255,0.03);
 }
 
 .card-actions .add-button.limit {
-  opacity: 0.65;
-  background: #555;
+  opacity: 0.6;
+  background: rgba(0,0,0,0.12);
+  cursor: not-allowed;
+}
+
+/* Utility: screen-reader only */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Light-theme overrides to keep colors appropriate */
+@media (prefers-color-scheme: light) {
+  .product-card {
+    --card-bg: #fff;
+    --card-border: rgba(0,0,0,0.06);
+    --card-shadow: 0 10px 20px rgba(55,65,81,0.08);
+    --text-muted: #475569;
+    --accent: #c47f12;
+  }
+  .image-wrap { background: linear-gradient(180deg,#f7f7f7,#ffffff); }
 }

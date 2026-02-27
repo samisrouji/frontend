@@ -13,6 +13,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({
+  id,
   name,
   price,
   imageUrl,
@@ -53,42 +54,58 @@ export function ProductCard({
     onRemove && onRemove();
   };
 
+  const productIdLabel = `product-${id}`;
+
   return (
-    <div className="product-card">
-      <img src={imageUrl} alt={name} />
-      <h3>{name}</h3>
-      <p>{price}</p>
-      <div className="card-actions">
-        {(() => {
-          const atLimit = quantity >= inventoryQuantity;
-          return (
-            <button
-              className={`add-button ${atLimit ? "limit" : ""}`}
-              onClick={handleAdd}
-              aria-label={`Add ${name} to cart`}
-            >
-              +
-            </button>
-          );
-        })()}
-        <span className="quantity">{quantity}</span>
-        <button
-          className="remove-button"
-          onClick={handleRemove}
-          aria-label={`Remove ${name} from cart`}
-          disabled={quantity <= 0}
-        >
-          -
-        </button>
+    <article className="product-card" aria-labelledby={productIdLabel}>
+      <div className="image-wrap">
+        <img src={imageUrl} alt={name} />
       </div>
 
-      <div className="available-box">{Math.max(inventoryQuantity - quantity, 0)} available</div>
+      <div className="card-body">
+        <h3 id={productIdLabel} className="product-title">
+          {name}
+        </h3>
+
+        <div className="price-row">
+          <div className="price">{price}</div>
+          <div className="available-box">{Math.max(inventoryQuantity - quantity, 0)} available</div>
+        </div>
+
+        <div className="card-actions">
+          {(() => {
+            const atLimit = quantity >= inventoryQuantity;
+            return (
+              <button
+                className={`add-button ${atLimit ? "limit" : ""}`}
+                onClick={handleAdd}
+                aria-label={`Add ${name} to cart`}
+              >
+                <span className="sr-only">Add</span>
+                <span aria-hidden>+</span>
+              </button>
+            );
+          })()}
+
+          <span className="quantity" aria-live="polite" aria-atomic="true">{quantity}</span>
+
+          <button
+            className="remove-button"
+            onClick={handleRemove}
+            aria-label={`Remove ${name} from cart`}
+            disabled={quantity <= 0}
+          >
+            <span className="sr-only">Remove</span>
+            <span aria-hidden>-</span>
+          </button>
+        </div>
+      </div>
 
       {error && (
         <div className="inventory-error" role="alert" aria-live="assertive">
           {error}
         </div>
       )}
-    </div>
+    </article>
   );
 }
