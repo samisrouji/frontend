@@ -19,6 +19,8 @@ function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [cart, setCart] = useState<Record<number, number>>({});
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none");
 
   // Fetch products from backend
   useEffect(() => {
@@ -32,6 +34,14 @@ function App() {
   const filteredProducts = products
     .filter((p) => p.isAvailable)
     .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  // Apply sorting
+  let displayedProducts = filteredProducts.slice(); // clone array
+  if (sortOrder === "asc") {
+    displayedProducts.sort((a, b) => a.price - b.price);
+  } else if (sortOrder === "desc") {
+    displayedProducts.sort((a, b) => b.price - a.price);
+  }
 
   const addToCart = (productId: number) => {
     setCart((prev) => {
@@ -55,10 +65,8 @@ function App() {
   };
 
   const cartCount = Object.values(cart).reduce((s, q) => s + q, 0);
-  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const toggleCart = () => setIsCartOpen((v) => !v);
-
   const clearCart = () => setCart({});
 
   const cartItems = Object.entries(cart).map(([id, qty]) => {
@@ -74,7 +82,13 @@ function App() {
 
   return (
     <div>
-      <Header onSearch={(query) => setSearchQuery(query)} cartCount={cartCount} onCartClick={toggleCart} />
+      <Header
+        onSearch={(query) => setSearchQuery(query)}
+        cartCount={cartCount}
+        onCartClick={toggleCart}
+        onSortChange={(order) => setSortOrder(order)}
+      />
+
       {isCartOpen && (
         <CartDrawer
           items={cartItems}
@@ -84,14 +98,15 @@ function App() {
           onClear={() => clearCart()}
         />
       )}
+
       <div className="product-grid">
-        {filteredProducts.map((p) => (
+        {displayedProducts.map((p) => (
           <ProductCard
             key={p.id}
             id={p.id}
             name={p.name}
-            price={`$${p.price}`} // format price as string
-            imageUrl="https://via.placeholder.com/150" // replace with real images if available
+            price={`$${p.price}`}
+            imageUrl="https://via.placeholder.com/150"
             onAdd={() => addToCart(p.id)}
             onRemove={() => removeFromCart(p.id)}
             quantity={cart[p.id] || 0}

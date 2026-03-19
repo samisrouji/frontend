@@ -171,3 +171,18 @@
 /* light theme: use white base and darker text */
 .light-theme .menu-fill{ background:white }
 .light-theme .menu-fill > span{ color:#213547 }
+
+.sort-dropdown {
+  margin-left: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #c6c6c6;
+  background-color: #393939;
+  color: white;
+  cursor: pointer;
+}
+.light-theme .sort-dropdown {
+  background-color: #f9f9f9;
+  color: #213547;
+  border: 1px solid #999;
+}

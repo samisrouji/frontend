@@ -6,15 +6,22 @@ interface HeaderProps {
   onSearch?: (query: string) => void;
   cartCount?: number;
   onCartClick?: () => void;
+  onSortChange?: (order: "asc" | "desc" | "none") => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0, onCartClick }) => {
+export const Header: React.FC<HeaderProps> = ({
+  onSearch,
+  cartCount = 0,
+  onCartClick,
+  onSortChange
+}) => {
   const [query, setQuery] = React.useState("");
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [isLight, setIsLight] = React.useState(false);
+  const [sort, setSort] = React.useState<"asc" | "desc" | "none">("none");
 
   const handleSearch = () => {
-    onSearch?.(query); // call parent callback with current query
+    onSearch?.(query);
   };
 
   const handleHome = () => {
@@ -32,12 +39,17 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0, onCartC
   const toggleTheme = () => {
     const newIsLight = !isLight;
     setIsLight(newIsLight);
-    if(newIsLight) document.documentElement.classList.add("light-theme");
+    if (newIsLight) document.documentElement.classList.add("light-theme");
     else document.documentElement.classList.remove("light-theme");
     localStorage.setItem("emarket:theme", newIsLight ? "light" : "dark");
   };
 
-  // initialize from saved prefs
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value as "asc" | "desc" | "none";
+    setSort(val);
+    onSortChange?.(val);
+  };
+
   React.useEffect(() => {
     const view = localStorage.getItem("emarket:view");
     if (view === "list") document.body.classList.add("list-view");
@@ -60,9 +72,13 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0, onCartC
         </button>
 
         {menuOpen && (
-            <div className="logo-menu" role="menu">
-            <button className="logo-menu-item menu-fill" onClick={handleHome} role="menuitem"><span>Home</span></button>
-            <button className="logo-menu-item menu-fill" onClick={toggleView} role="menuitem"><span>View</span></button>
+          <div className="logo-menu" role="menu">
+            <button className="logo-menu-item menu-fill" onClick={handleHome} role="menuitem">
+              <span>Home</span>
+            </button>
+            <button className="logo-menu-item menu-fill" onClick={toggleView} role="menuitem">
+              <span>View</span>
+            </button>
             <button className="logo-menu-item logo-menu-item-theme menu-fill" onClick={toggleTheme} role="menuitem">
               <span>Theme</span>
               <span className="theme-toggle">{isLight ? "☀️" : "🌙"}</span>
@@ -80,10 +96,16 @@ export const Header: React.FC<HeaderProps> = ({ onSearch, cartCount = 0, onCartC
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
-        <button className="search-button" onClick={handleSearch}>
-          🔍
-        </button>
+        <button className="search-button" onClick={handleSearch}>🔍</button>
+
+        {/* SORT DROPDOWN */}
+        <select className="sort-dropdown" value={sort} onChange={handleSortChange}>
+          <option value="none">Sort by</option>
+          <option value="asc">Price: Low → High</option>
+          <option value="desc">Price: High → Low</option>
+        </select>
       </div>
+
       <div className="cart-container">
         <button className="cart-button" aria-label="Cart" onClick={onCartClick}>🛒
           <span className="cart-count">{cartCount}</span>
