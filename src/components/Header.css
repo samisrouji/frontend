@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  background: linear-gradient(90deg, #8ab4f3 0%, #000814 55%, #020f26 100%);
+  background: linear-gradient(90deg, #00e1ff8c 0%, #000814 55%, #000000 100%);
   border-bottom: 1px solid rgba(54, 144, 219, 0.25);
   width: 100%;
 }
