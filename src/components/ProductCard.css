@@ -2,7 +2,7 @@
   --card-radius: 12px;
   --card-padding: 16px;
   --card-bg: rgba(255,255,255,0.02);
-  --card-border: rgba(255,255,255,0.06);
+  --card-border: rgba(0, 225, 255, 0.55);
   --card-shadow: 0 10px 25px rgba(2,6,23,0.55);
   --text-muted: rgba(255,255,255,0.7);
   --accent: #ffd580;
@@ -13,6 +13,18 @@
   padding: var(--card-padding);
   width: 100%;
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  overflow: hidden;
+  box-shadow: 0 0 18px 0 rgba(0, 200, 255, 0.35), inset 0 0 20px rgba(0, 210, 255, 0.18);
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px 2px rgba(0, 225, 255, 0.55), 0 14px 35px rgba(0, 120, 190, 0.35), inset 0 0 26px rgba(0, 225, 255, 0.25);
+  border-color: rgba(0, 230, 255, 0.92);
+}
   flex-direction: column;
   gap: 12px;
   transition: transform 220ms ease, box-shadow 220ms ease;

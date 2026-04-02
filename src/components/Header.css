@@ -2,7 +2,8 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  background-color: #100000;
+  background: linear-gradient(90deg, #8ab4f3 0%, #000814 55%, #020f26 100%);
+  border-bottom: 1px solid rgba(54, 144, 219, 0.25);
   width: 100%;
 }
 
@@ -163,7 +164,7 @@
 }
 .menu-fill::before{
   content:''; position:absolute; inset:0; transform:translateX(-100%);
-  background:hsl(244,63%,69%); transition:transform 0.4s ease; border-radius:6px;
+  background:hsl(0, 0%, 0%); transition:transform 0.4s ease; border-radius:6px;
 }
 .menu-fill:hover > span{ color:#fff }
 .menu-fill:hover::before{ transform:translateX(0) }
