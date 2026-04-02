@@ -21,6 +21,8 @@ function App() {
   const [cart, setCart] = useState<Record<number, number>>({});
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 12;
 
   // Fetch products from backend
   useEffect(() => {
@@ -29,6 +31,11 @@ function App() {
       .then((response) => setProducts(response.data))
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
+
+  // Reset to page 1 when search or sort changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, sortOrder]);
 
   // Filter products based on search and availability
   const filteredProducts = products
@@ -42,6 +49,11 @@ function App() {
   } else if (sortOrder === "desc") {
     displayedProducts.sort((a, b) => b.price - a.price);
   }
+
+  // Pagination
+  const totalPages = Math.ceil(displayedProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedProducts = displayedProducts.slice(startIndex, startIndex + itemsPerPage);
 
   const addToCart = (productId: number) => {
     setCart((prev) => {
@@ -100,7 +112,7 @@ function App() {
       )}
 
       <div className="product-grid">
-        {displayedProducts.map((p) => (
+        {paginatedProducts.map((p) => (
           <ProductCard
             key={p.id}
             id={p.id}
@@ -114,6 +126,25 @@ function App() {
           />
         ))}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }
