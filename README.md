@@ -48,3 +48,25 @@ The app will be available at `http://localhost:8080`.
 - **Stop the container:** `docker stop emarket-frontend-container`
 - **Remove the container:** `docker rm emarket-frontend-container`
 - **View logs:** `docker logs emarket-frontend-container`
+
+## Docker Compose
+
+For a simpler setup using Docker Compose, follow these steps:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/samisrouji/frontend.git
+cd frontend
+
+# 2. Build and run with docker-compose
+docker-compose up --build
+```
+
+The app will be available at `http://localhost:8080`.
+
+### Docker Compose Commands
+
+- **Start the container:** `docker-compose up`
+- **Start in background:** `docker-compose up -d`
+- **Stop the container:** `docker-compose down`
+- **View logs:** `docker-compose logs -f`

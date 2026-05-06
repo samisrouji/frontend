@@ -23,14 +23,15 @@ function App() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
+  const apiBaseUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8081";
 
   // Fetch products from backend
   useEffect(() => {
     axios
-      .get<Product[]>("http://localhost:8080/api/products")
+      .get<Product[]>(`${apiBaseUrl}/api/products`)
       .then((response) => setProducts(response.data))
       .catch((error) => console.error("Error fetching products:", error));
-  }, []);
+  }, [apiBaseUrl]);
 
   // Reset to page 1 when search or sort changes
   useEffect(() => {
