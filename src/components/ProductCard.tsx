@@ -45,13 +45,13 @@ export function ProductCard({
     }
     clearTimer();
     setError(null);
-    onAdd && onAdd();
+    onAdd?.();
   };
 
   const handleRemove = () => {
     clearTimer();
     setError(null);
-    onRemove && onRemove();
+    onRemove?.();
   };
 
   const productIdLabel = `product-${id}`;

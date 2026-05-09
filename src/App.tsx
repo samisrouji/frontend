@@ -44,7 +44,7 @@ function App() {
     .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
   // Apply sorting
-  let displayedProducts = filteredProducts.slice(); // clone array
+  const displayedProducts = filteredProducts.slice(); // clone array
   if (sortOrder === "asc") {
     displayedProducts.sort((a, b) => a.price - b.price);
   } else if (sortOrder === "desc") {
