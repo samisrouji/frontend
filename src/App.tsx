@@ -33,11 +33,6 @@ function App() {
       .catch((error) => console.error("Error fetching products:", error));
   }, [apiBaseUrl]);
 
-  // Reset to page 1 when search or sort changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchQuery, sortOrder]);
-
   // Filter products based on search and availability
   const filteredProducts = products
     .filter((p) => p.isAvailable)
@@ -96,10 +91,16 @@ function App() {
   return (
     <div>
       <Header
-        onSearch={(query) => setSearchQuery(query)}
+        onSearch={(query) => {
+          setSearchQuery(query);
+          setCurrentPage(1);
+        }}
         cartCount={cartCount}
         onCartClick={toggleCart}
-        onSortChange={(order) => setSortOrder(order)}
+        onSortChange={(order) => {
+          setSortOrder(order);
+          setCurrentPage(1);
+        }}
       />
 
       {isCartOpen && (
