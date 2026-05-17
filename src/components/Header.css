@@ -182,6 +182,23 @@
   color: white;
   cursor: pointer;
 }
+
+.sign-in-button {
+  margin-left: 12px;
+  padding: 8px 12px;
+  min-width: 104px;
+  border-radius: 6px;
+  border: 1px solid #c6c6c6;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.sign-in-button:hover {
+  background-color: rgba(255,255,255,0.08);
+}
+
 .light-theme .sort-dropdown {
   background-color: #f9f9f9;
   color: #213547;

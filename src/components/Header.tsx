@@ -7,13 +7,15 @@ interface HeaderProps {
   cartCount?: number;
   onCartClick?: () => void;
   onSortChange?: (order: "asc" | "desc" | "none") => void;
+  onSignIn?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   onSearch,
   cartCount = 0,
   onCartClick,
-  onSortChange
+  onSortChange,
+  onSignIn
 }) => {
   const [query, setQuery] = React.useState("");
   const [menuOpen, setMenuOpen] = React.useState(false);
@@ -48,6 +50,10 @@ export const Header: React.FC<HeaderProps> = ({
     const val = e.target.value as "asc" | "desc" | "none";
     setSort(val);
     onSortChange?.(val);
+  };
+
+  const handleSignIn = () => {
+    onSignIn?.();
   };
 
   React.useEffect(() => {
@@ -104,6 +110,8 @@ export const Header: React.FC<HeaderProps> = ({
           <option value="asc">Price: Low → High</option>
           <option value="desc">Price: High → Low</option>
         </select>
+
+        <button className="sign-in-button" onClick={handleSignIn}>Sign In</button>
       </div>
 
       <div className="cart-container">
