@@ -3,6 +3,7 @@ import axios from "axios";
 import { Header } from "./components/Header";
 import CartDrawer from "./components/CartDrawer.tsx";
 import { ProductCard } from "./components/ProductCard";
+import { SignInPage } from "./components/SignInPage";
 import "./App.css";
 
 // Define Product type to match backend
@@ -20,6 +21,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [cart, setCart] = useState<Record<number, number>>({});
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [page, setPage] = useState<"home" | "signin">("home");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -76,6 +78,11 @@ function App() {
 
   const toggleCart = () => setIsCartOpen((v) => !v);
   const clearCart = () => setCart({});
+  const goToSignIn = () => {
+    setIsCartOpen(false);
+    setPage("signin");
+  };
+  const goHome = () => setPage("home");
 
   const cartItems = Object.entries(cart).map(([id, qty]) => {
     const pid = Number(id);
@@ -90,30 +97,37 @@ function App() {
 
   return (
     <div>
-      <Header
-        onSearch={(query) => {
-          setSearchQuery(query);
-          setCurrentPage(1);
-        }}
-        cartCount={cartCount}
-        onCartClick={toggleCart}
-        onSortChange={(order) => {
-          setSortOrder(order);
-          setCurrentPage(1);
-        }}
-      />
-
-      {isCartOpen && (
-        <CartDrawer
-          items={cartItems}
-          onClose={() => setIsCartOpen(false)}
-          onAdd={(id: number) => addToCart(id)}
-          onRemove={(id: number) => removeFromCart(id)}
-          onClear={() => clearCart()}
+      {page === "home" && (
+        <Header
+          onSearch={(query) => {
+            setSearchQuery(query);
+            setCurrentPage(1);
+          }}
+          cartCount={cartCount}
+          onCartClick={toggleCart}
+          onSortChange={(order) => {
+            setSortOrder(order);
+            setCurrentPage(1);
+          }}
+          onSignIn={goToSignIn}
         />
       )}
 
-      <div className="product-grid">
+      {page === "signin" ? (
+        <SignInPage onBack={goHome} />
+      ) : (
+        <>
+          {isCartOpen && (
+            <CartDrawer
+              items={cartItems}
+              onClose={() => setIsCartOpen(false)}
+              onAdd={(id: number) => addToCart(id)}
+              onRemove={(id: number) => removeFromCart(id)}
+              onClear={() => clearCart()}
+            />
+          )}
+
+          <div className="product-grid">
         {paginatedProducts.map((p) => (
           <ProductCard
             key={p.id}
@@ -146,6 +160,8 @@ function App() {
             Next
           </button>
         </div>
+      )}
+        </>
       )}
     </div>
   );

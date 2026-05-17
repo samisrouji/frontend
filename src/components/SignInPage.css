@@ -1,0 +1,120 @@
+.sign-in-page {
+  min-height: calc(100vh - 80px);
+  padding: 26px;
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-in-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.back-button {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid #c6c6c6;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.sign-in-top h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.sign-in-description {
+  margin: 4px 0 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 14px;
+}
+
+.sign-in-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sign-in-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sign-in-card input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.35);
+  color: white;
+  font-size: 16px;
+}
+
+.sign-in-card input::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.submit-button {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #c6c6c6;
+  background: #393939;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background: #4d4d4d;
+}
+
+.light-theme .sign-in-card {
+  background: #f9f9f9;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.light-theme .sign-in-card label {
+  color: #213547;
+}
+
+.light-theme .sign-in-card input {
+  background: white;
+  color: #213547;
+  border-color: #c6c6c6;
+}
+
+.light-theme .sign-in-card input::placeholder {
+  color: rgba(33, 53, 71, 0.45);
+}
+
+.light-theme .back-button {
+  color: #213547;
+  border-color: #999;
+}
+
+.light-theme .submit-button {
+  background: #213547;
+  border-color: #213547;
+}
+
+.light-theme .submit-button:hover {
+  background: #1a2f45;
+}
