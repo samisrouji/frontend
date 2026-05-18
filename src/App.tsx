@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { Header } from "./components/Header";
 import CartDrawer from "./components/CartDrawer.tsx";
@@ -36,17 +36,24 @@ function App() {
   }, [apiBaseUrl]);
 
   // Filter products based on search and availability
-  const filteredProducts = products
-    .filter((p) => p.isAvailable)
-    .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredProducts = useMemo(
+    () =>
+      products
+        .filter((p) => p.isAvailable)
+        .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase())),
+    [products, searchQuery]
+  );
 
   // Apply sorting
-  const displayedProducts = filteredProducts.slice(); // clone array
-  if (sortOrder === "asc") {
-    displayedProducts.sort((a, b) => a.price - b.price);
-  } else if (sortOrder === "desc") {
-    displayedProducts.sort((a, b) => b.price - a.price);
-  }
+  const displayedProducts = useMemo(() => {
+    const sorted = filteredProducts.slice();
+    if (sortOrder === "asc") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (sortOrder === "desc") {
+      sorted.sort((a, b) => b.price - a.price);
+    }
+    return sorted;
+  }, [filteredProducts, sortOrder]);
 
   // Pagination
   const totalPages = Math.ceil(displayedProducts.length / itemsPerPage);
